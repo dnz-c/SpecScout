@@ -1,4 +1,4 @@
-// Common.h — shared value types for SpecScout.
+// Common.h - shared value types for SpecScout.
 //
 // SpecScout is a static Spectre-v1 gadget scanner for x86-64 PE binaries.
 // It reports the bounds-check-bypass gadgets that MSVC's /Qspectre mitigation

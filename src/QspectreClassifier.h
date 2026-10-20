@@ -1,4 +1,4 @@
-// QspectreClassifier.h — turn a raw speculative sink hit into a scored,
+// QspectreClassifier.h - turn a raw speculative sink hit into a scored,
 // explained /Qspectre-residual Finding.
 //
 // A candidate reaches the classifier only when the speculative walk reached the

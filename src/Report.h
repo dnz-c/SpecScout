@@ -1,4 +1,4 @@
-// Report.h — the Finding type and output (human text + JSON).
+// Report.h - the Finding type and output (human text + JSON).
 #pragma once
 
 #include "Common.h"
@@ -10,8 +10,8 @@
 namespace specscout {
 
 enum class SinkKind {
-    DependentLoad,   // S1:  a[b[i]]   — attacker index -> load -> dependent load
-    IndirectBranch   // S2:  b[i]()    — attacker index -> indirect call/jump target
+    DependentLoad,   // S1:  a[b[i]]   - attacker index -> load -> dependent load
+    IndirectBranch   // S2:  b[i]()    - attacker index -> indirect call/jump target
 };
 
 const char* sink_kind_name(SinkKind k);

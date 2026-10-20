@@ -1,4 +1,4 @@
-// Cfg.h — per-function control-flow recovery via Capstone.
+// Cfg.h - per-function control-flow recovery via Capstone.
 //
 // Recursive-descent disassembly from a function start, bounded by the .pdata
 // range when known. Produces basic blocks plus per-instruction control-flow

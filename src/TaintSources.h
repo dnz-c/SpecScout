@@ -1,4 +1,4 @@
-// TaintSources.h — "known input API" taint model.
+// TaintSources.h - "known input API" taint model.
 //
 // Attacker-controlled data is assumed to enter through a fixed set of input
 // APIs (recv/read/ReadFile/fread/...). We find call sites to those imports and

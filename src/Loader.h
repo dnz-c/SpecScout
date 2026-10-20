@@ -1,4 +1,4 @@
-// Loader.h — PE parsing via LIEF.
+// Loader.h - PE parsing via LIEF.
 //
 // Responsibilities:
 //   * map sections (with raw bytes) and record image base / entry point

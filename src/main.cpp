@@ -1,4 +1,4 @@
-// SpecScout — static Spectre-v1 gadget scanner for x86-64 PE binaries.
+// SpecScout - static Spectre-v1 gadget scanner for x86-64 PE binaries.
 //
 // Usage:
 //   specscout <target.exe> [options]
@@ -29,7 +29,7 @@ namespace {
 
 void print_usage(const char* argv0) {
     std::printf(
-        "SpecScout — static Spectre-v1 /Qspectre-residual gadget scanner\n"
+        "SpecScout - static Spectre-v1 /Qspectre-residual gadget scanner\n"
         "usage: %s <target> [options]\n"
         "  taint model (pick one; default --api):\n"
         "    --api            attacker data from imported input APIs (user-mode)\n"
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
     std::vector<TaintSourceSite> sites;
     if (mode == Mode::Api) {
         sites = sources.find_sites(*img, cfg, img->functions);
-        std::printf("taint model: input APIs — %zu source site(s)\n", sites.size());
+        std::printf("taint model: input APIs - %zu source site(s)\n", sites.size());
     } else {
         std::vector<va_t> entries;
         if (!func_target.empty()) {
@@ -177,7 +177,7 @@ int main(int argc, char** argv) {
         if ((int)entries.size() > max_funcs) entries.resize(max_funcs);
         sites = (mode == Mode::Driver) ? sources.driver_sites(entries)
                                        : sources.param_sites(entries);
-        std::printf("taint model: %s — %zu entry function(s)\n",
+        std::printf("taint model: %s - %zu entry function(s)\n",
                     mode == Mode::Driver ? "driver IRP" : "parameters", sites.size());
     }
 

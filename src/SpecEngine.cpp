@@ -188,7 +188,7 @@ struct Session {
             // Seed the concrete value out-of-bounds (0xFF) so bounds checks on
             // this data concretely FAIL: the concrete walk then skips the
             // guarded body, making that body the *mispredicted* path we must
-            // speculate — the bounds-check-bypass direction.
+            // speculate - the bounds-check-bypass direction.
             ctx.setConcreteMemoryValue(ptr + i, 0xFF);
             triton::arch::MemoryAccess m(ptr + i, 1);
             auto sv = ctx.symbolizeMemory(m);

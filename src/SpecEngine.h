@@ -1,4 +1,4 @@
-// SpecEngine.h — Triton-driven speculative taint exploration.
+// SpecEngine.h - Triton-driven speculative taint exploration.
 //
 // For each taint-source call site we:
 //   1. set up a fresh Triton x86-64 context, map the image, pin a sandbox stack
