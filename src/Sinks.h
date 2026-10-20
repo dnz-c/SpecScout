@@ -18,4 +18,12 @@ namespace specscout::sinks {
 bool ast_references_var(const triton::ast::SharedAbstractNode& node,
                         const std::unordered_set<triton::usize>& ids);
 
+// Like the above, but true only if a referenced variable appears *under a
+// multiply/shift* (a scaled index). This is the cache-transmitter hallmark —
+// the loaded value is spread across cache lines (e.g. array2[v * 512]) — and it
+// separates real `a[b[i]]` gadgets from ordinary pointer chasing (`p->a->b`),
+// which dereferences the loaded value directly with no scaling.
+bool ast_references_var_scaled(const triton::ast::SharedAbstractNode& node,
+                               const std::unordered_set<triton::usize>& ids);
+
 } // namespace specscout::sinks

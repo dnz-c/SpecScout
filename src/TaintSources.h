@@ -15,16 +15,24 @@
 
 namespace specscout {
 
+// How attacker-controlled data enters at a site.
+enum class SourceModel {
+    InputApi,    // user-mode: a buffer written by an imported input API
+    DriverIrp,   // kernel: the IRP SystemBuffer/Type3InputBuffer of a dispatch routine
+    Params       // generic: the integer parameter registers at a function entry
+};
+
 struct SourceSpec {
-    std::string api;    // canonical name
+    std::string api;    // canonical name / label
     int         buf_arg;    // 0-based arg index holding the OUT buffer pointer
     int         len_bytes;  // how many bytes of that buffer to treat as tainted
 };
 
 struct TaintSourceSite {
-    va_t        call_va = 0;   // the call instruction
+    SourceModel model = SourceModel::InputApi;
+    va_t        call_va = 0;   // InputApi: the call instruction; else == func_va
     va_t        return_va = 0; // instruction after the call
-    va_t        func_va = 0;   // enclosing function start
+    va_t        func_va = 0;   // function to start the walk at
     SourceSpec  spec;
 };
 
@@ -43,6 +51,19 @@ public:
     // or `call thunk` where the thunk is `jmp [iat]`).
     std::vector<TaintSourceSite> find_sites(const LoadedImage& img, Cfg& cfg,
                                             const std::vector<FunctionRange>& funcs) const;
+
+    // Build DriverIrp sites: each entry VA is treated as an IOCTL dispatch
+    // routine whose IRP (2nd parameter) carries attacker-controlled buffers.
+    std::vector<TaintSourceSite> driver_sites(const std::vector<va_t>& entries) const;
+
+    // Build Params sites: each entry VA's integer parameter registers are
+    // treated as attacker-controlled (syscall / exported-function surface).
+    std::vector<TaintSourceSite> param_sites(const std::vector<va_t>& entries) const;
+
+    // Best-effort: scan DriverEntry for stores into
+    // DriverObject->MajorFunction[] (offset 0x70..0xE0 on x64) and return the
+    // dispatch routine addresses they install.
+    std::vector<va_t> find_ioctl_dispatch(const LoadedImage& img, Cfg& cfg) const;
 
 private:
     std::vector<SourceSpec> table_;

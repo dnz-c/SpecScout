@@ -1,7 +1,11 @@
 #include "TaintSources.h"
 
+#include <capstone/capstone.h>
+
 #include <algorithm>
 #include <cctype>
+#include <map>
+#include <set>
 
 namespace specscout {
 
@@ -80,6 +84,7 @@ std::vector<TaintSourceSite> TaintSources::find_sites(
                 if (!spec) continue;
 
                 TaintSourceSite s;
+                s.model = SourceModel::InputApi;
                 s.call_va = in.va;
                 s.return_va = in.fallthrough;
                 s.func_va = fr.start_va;
@@ -90,6 +95,83 @@ std::vector<TaintSourceSite> TaintSources::find_sites(
         }
     }
     return sites;
+}
+
+std::vector<TaintSourceSite> TaintSources::driver_sites(
+    const std::vector<va_t>& entries) const {
+    std::vector<TaintSourceSite> v;
+    for (va_t e : entries) {
+        TaintSourceSite s;
+        s.model = SourceModel::DriverIrp;
+        s.func_va = s.call_va = s.return_va = e;
+        s.spec.api = "IRP";
+        s.spec.buf_arg = -1;
+        s.spec.len_bytes = 64;
+        v.push_back(s);
+    }
+    return v;
+}
+
+std::vector<TaintSourceSite> TaintSources::param_sites(
+    const std::vector<va_t>& entries) const {
+    std::vector<TaintSourceSite> v;
+    for (va_t e : entries) {
+        TaintSourceSite s;
+        s.model = SourceModel::Params;
+        s.func_va = s.call_va = s.return_va = e;
+        s.spec.api = "param";
+        s.spec.buf_arg = -1;
+        s.spec.len_bytes = 0;
+        v.push_back(s);
+    }
+    return v;
+}
+
+std::vector<va_t> TaintSources::find_ioctl_dispatch(const LoadedImage& img,
+                                                    Cfg& /*cfg*/) const {
+    // Linearly decode DriverEntry looking for `lea reg,[rip+X]` followed by a
+    // store into DriverObject->MajorFunction[] (x64 offset 0x70 + k*8). The
+    // lea'd target is the installed dispatch routine.
+    std::vector<va_t> out;
+    csh h;
+    if (cs_open(CS_ARCH_X86, CS_MODE_64, &h) != CS_ERR_OK) return out;
+    cs_option(h, CS_OPT_DETAIL, CS_OPT_ON);
+    cs_insn* ci = cs_malloc(h);
+
+    std::map<unsigned, va_t> lea_targets;  // reg id -> rip-relative target VA
+    std::set<va_t> seen;
+
+    size_t avail = 0;
+    const uint8_t* code = img.bytes_at(img.entry_point_va, avail);
+    uint64_t cur = img.entry_point_va;
+    int budget = 1500;
+    while (code && avail > 0 && budget-- > 0) {
+        if (!cs_disasm_iter(h, &code, &avail, &cur, ci)) break;
+        const cs_x86& x = ci->detail->x86;
+        if (ci->id == X86_INS_LEA && x.op_count == 2 &&
+            x.operands[0].type == X86_OP_REG && x.operands[1].type == X86_OP_MEM &&
+            x.operands[1].mem.base == X86_REG_RIP) {
+            va_t tgt = static_cast<va_t>(ci->address + ci->size +
+                                         x.operands[1].mem.disp);
+            lea_targets[x.operands[0].reg] = tgt;
+        } else if (ci->id == X86_INS_MOV && x.op_count == 2 &&
+                   x.operands[0].type == X86_OP_MEM &&
+                   x.operands[1].type == X86_OP_REG) {
+            int64_t disp = x.operands[0].mem.disp;
+            if (disp >= 0x70 && disp < 0x160) {  // MajorFunction[0..27]
+                auto it = lea_targets.find(x.operands[1].reg);
+                if (it != lea_targets.end() && img.is_executable(it->second) &&
+                    seen.insert(it->second).second) {
+                    out.push_back(it->second);
+                }
+            }
+        } else if (cs_insn_group(h, ci, X86_GRP_RET)) {
+            break;
+        }
+    }
+    cs_free(ci, 1);
+    cs_close(&h);
+    return out;
 }
 
 } // namespace specscout

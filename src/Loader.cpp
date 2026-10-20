@@ -38,6 +38,12 @@ const std::string* LoadedImage::import_name_at(va_t va) const {
     return it == iat_index_.end() ? nullptr : it->second;
 }
 
+va_t LoadedImage::export_va(const std::string& name) const {
+    for (const auto& [n, va] : exports)
+        if (n == name) return va;
+    return 0;
+}
+
 std::optional<LoadedImage> Loader::load(const std::string& path, std::string& err) {
     std::unique_ptr<LIEF::PE::Binary> bin;
     try {
@@ -92,6 +98,17 @@ std::optional<LoadedImage> Loader::load(const std::string& path, std::string& er
         }
     }
 
+    // --- exports ------------------------------------------------------------
+    if (bin->has_exports()) {
+        if (const LIEF::PE::Export* exp = bin->get_export()) {
+            for (const LIEF::PE::ExportEntry& e : exp->entries()) {
+                uint32_t rva = static_cast<uint32_t>(e.address());
+                if (rva == 0) continue;  // forwarded export, no local code
+                img.exports.emplace_back(e.name(), img.image_base + rva);
+            }
+        }
+    }
+
     // --- function ranges from .pdata (RUNTIME_FUNCTION[]) -------------------
     // Each entry is { uint32 begin_rva; uint32 end_rva; uint32 unwind_rva; }.
     // A chained entry has (unwind_rva & 1) set in its unwind info; we keep the
@@ -116,6 +133,10 @@ std::optional<LoadedImage> Loader::load(const std::string& path, std::string& er
     // Always include the entry point as a function start (may be absent from
     // .pdata if it is a leaf/non-unwinding thunk).
     img.functions.push_back({img.entry_point_va, img.entry_point_va});
+
+    // Exported routines are function starts too (and carry useful names).
+    for (const auto& [name, va] : img.exports)
+        img.functions.push_back({va, va});
 
     // Deduplicate by start VA.
     std::sort(img.functions.begin(), img.functions.end(),

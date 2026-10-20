@@ -26,6 +26,10 @@ public:
     std::vector<Section>    sections;
     std::vector<ImportRef>  imports;       // one per IAT slot
     std::vector<FunctionRange> functions;  // from .pdata (+ entry/exports)
+    std::vector<std::pair<std::string, va_t>> exports;  // name -> absolute VA
+
+    // Absolute VA of an export by name (exact match), or 0 if absent.
+    va_t export_va(const std::string& name) const;
 
     // Return a pointer into the mapped bytes for `va`, and how many
     // contiguous bytes are available from there. Null if `va` is unmapped.

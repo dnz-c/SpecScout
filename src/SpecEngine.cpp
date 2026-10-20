@@ -4,6 +4,8 @@
 #include "Sinks.h"
 
 #include <triton/archEnums.hpp>
+#include <triton/callbacks.hpp>
+#include <triton/callbacksEnums.hpp>
 #include <triton/context.hpp>
 #include <triton/instruction.hpp>
 #include <triton/memoryAccess.hpp>
@@ -13,6 +15,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <functional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -93,18 +96,82 @@ struct Session {
         ctx.setMode(triton::modes::TAINT_THROUGH_POINTERS, true);
         ctx.setMode(triton::modes::CONSTANT_FOLDING, true);
 
-        for (const Section& s : img.sections) {
-            if (s.bytes.empty()) continue;
-            if (s.bytes.size() <= cfg.max_map_per_section) {
-                ctx.setConcreteMemoryAreaValue(s.va, s.bytes);
-            } else {
-                std::vector<uint8_t> head(s.bytes.begin(),
-                                          s.bytes.begin() + cfg.max_map_per_section);
-                ctx.setConcreteMemoryAreaValue(s.va, head);
-            }
-        }
+        // Lazy memory: serve image bytes on demand via a callback rather than
+        // mapping whole sections up front. This is what makes scanning a 12 MB
+        // image like ntoskrnl.exe tractable (map-on-read, O(bytes touched)).
+        ctx.addCallback(
+            triton::callbacks::GET_CONCRETE_MEMORY_VALUE,
+            triton::callbacks::getConcreteMemoryValueCallback(
+                [this](triton::Context& c, const triton::arch::MemoryAccess& ma) {
+                    fill_mem(c, ma);
+                },
+                this));
+
         wr("rsp", cfg.stack_top);
         wr("rbp", cfg.stack_top);
+    }
+
+    // GET_CONCRETE_MEMORY_VALUE callback: back the accessed range with the real
+    // image bytes if it falls in a mapped section. Sandbox addresses (stack,
+    // IRP) are not in the image, so their symbolic/tainted state is preserved.
+    void fill_mem(triton::Context& c, const triton::arch::MemoryAccess& ma) {
+        uint64_t a = ma.getAddress();
+        uint32_t sz = ma.getSize();
+        if (sz == 0 || sz > 4096) return;
+        size_t avail = 0;
+        const uint8_t* p = img.bytes_at(a, avail);
+        if (!p || avail == 0) return;
+        size_t n = sz < avail ? sz : avail;
+        std::vector<triton::uint8> v(p, p + n);
+        c.setConcreteMemoryAreaValue(a, v, false);  // execCallbacks=false: no recursion
+    }
+
+    // Params model: the integer parameter registers are attacker-controlled.
+    void seed_params() {
+        static const char* regs[4] = {"rcx", "rdx", "r8", "r9"};
+        for (const char* r : regs) {
+            wr(r, 0x41414141);  // out-of-bounds concrete FIRST (symbolize must come
+                                // last; setConcreteRegisterValue clears the symbol)
+            auto sv = ctx.symbolizeRegister(ctx.getRegister(r));
+            if (sv) input_vars.insert(sv->getId());
+            ctx.taintRegister(ctx.getRegister(r));
+        }
+    }
+
+    // DriverIrp model: build a sandbox _IRP (2nd parameter) with attacker-
+    // controlled SystemBuffer / Type3InputBuffer and input length. x64 offsets.
+    void seed_driver_irp() {
+        const uint64_t IRP = 0x0000200000000000ull;
+        const uint64_t DEVOBJ = 0x0000200000100000ull;
+        const uint64_t SYSBUF = 0x0000200000200000ull;
+        const uint64_t STACKLOC = 0x0000200000300000ull;
+        const uint64_t TYPE3 = 0x0000200000400000ull;
+        auto wptr = [&](uint64_t at, uint64_t val) {
+            ctx.setConcreteMemoryValue(triton::arch::MemoryAccess(at, 8),
+                                       triton::uint512(val));
+        };
+        wr("rcx", DEVOBJ);
+        wr("rdx", IRP);
+        wptr(IRP + 0x18, SYSBUF);    // Irp->AssociatedIrp.SystemBuffer
+        wptr(IRP + 0x70, TYPE3);     // Irp->UserBuffer
+        wptr(IRP + 0xB8, STACKLOC);  // Irp->Tail.Overlay.CurrentStackLocation
+        wptr(STACKLOC + 0x20, TYPE3);// Parameters.DeviceIoControl.Type3InputBuffer
+        {   // Parameters.DeviceIoControl.InputBufferLength (attacker-controlled)
+            triton::arch::MemoryAccess lenm(STACKLOC + 0x10, 4);
+            ctx.setConcreteMemoryValue(lenm, triton::uint512(0x41414141));
+            auto sv = ctx.symbolizeMemory(lenm);
+            if (sv) input_vars.insert(sv->getId());
+            ctx.taintMemory(lenm);
+        }
+        for (int i = 0; i < cfg.source_taint_bytes; ++i) {
+            for (uint64_t base : {SYSBUF, TYPE3}) {
+                ctx.setConcreteMemoryValue(base + i, 0xFF);
+                triton::arch::MemoryAccess m(base + i, 1);
+                auto sv = ctx.symbolizeMemory(m);
+                if (sv) input_vars.insert(sv->getId());
+                ctx.taintMemory(m);
+            }
+        }
     }
 
     // Taint the API output buffer at a source call: the buffer pointer is in an
@@ -136,6 +203,8 @@ struct Session {
     void run_concrete(va_t start_pc, std::vector<Guard>* collect, va_t stop_at,
                        va_t& reached) {
         reached = 0;
+        if (site.model == SourceModel::Params) seed_params();
+        else if (site.model == SourceModel::DriverIrp) seed_driver_irp();
         va_t pc = start_pc;
         for (int steps = 0; steps < cfg.max_normal_steps; ++steps) {
             if (!img.is_executable(pc)) break;
@@ -175,7 +244,8 @@ struct Session {
             if (insn.is_ret) {
                 break;
             } else if (insn.is_call) {
-                if (pc == site.call_va) apply_source();
+                if (site.model == SourceModel::InputApi && pc == site.call_va)
+                    apply_source();
                 wr("rsp", rsp0);                 // undo the pushed return address
                 next = insn.fallthrough;         // model: callee returns immediately
             } else {
@@ -219,11 +289,14 @@ struct Session {
                 bool refs_input = sinks::ast_references_var(lea, input_vars);
                 bool refs_load = sinks::ast_references_var(lea, load_vars);
                 if (refs_input || refs_load) attacker_load = true;
+                // Sink only when a prior load's result is used as a SCALED index
+                // (the cache-transmitter shape), not plain pointer chasing.
+                bool sink = sinks::ast_references_var_scaled(lea, load_vars);
                 if (dbg() && (refs_input || refs_load))
-                    std::fprintf(stderr, "    [spec] 0x%llx in=%d load=%d  %s\n",
+                    std::fprintf(stderr, "    [spec] 0x%llx in=%d load=%d scaled=%d  %s\n",
                                  (unsigned long long)pc, (int)refs_input, (int)refs_load,
-                                 tinst.getDisassembly().c_str());
-                if (refs_load) {
+                                 (int)sink, tinst.getDisassembly().c_str());
+                if (sink) {
                     out.push_back(make_finding(SinkKind::DependentLoad, g, pc,
                                                tinst.getDisassembly(), steps));
                     break;
