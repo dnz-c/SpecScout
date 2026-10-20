@@ -141,14 +141,39 @@ does **not** fence the indirect-call gadget, so SpecScout flags a real residual.
 
 `confirm/harness.cpp` builds the flagged S1 gadget, mistrains the guard, and
 recovers a secret through the `array2[]` cache side channel — confirming the
-gadget class is live on the host CPU:
+gadget class is live on the host CPU. With no argument it runs the built-in
+self-test:
 
 ```
+specscout_confirm
+...
 [confirm] recovered 10/10 bytes -> gadget is EXPLOITABLE (leak confirmed)
 ```
 
-(Driving an arbitrary external PE straight from a JSON finding is future work;
-this is the in-process confirmer the primitive is built for.)
+Given a finder JSON report it walks every finding and, for each **S1**, runs an
+in-process replica keyed to that finding — mistraining the guard and delaying
+the transmit load by the reported `spec_distance` to also probe whether the
+speculation window reaches that far on your CPU:
+
+```
+specscout ntoskrnl.exe --params --exports --json gadgets.json
+specscout_confirm gadgets.json            # leak-test up to --limit S1 findings
+specscout_confirm gadgets.json --all      # test every finding (slower)
+
+[#0] S1:a[b[i]] fn=0x1403a08e0 guard=0x1403a0e5d -> sink=0x1403a0b86  dist=+24
+      recovered 10/10 bytes -> S1 class EXPLOITABLE on this CPU
+...
+=== summary: 18/20 S1 tested confirmed; 32 S2 listed for manual review ===
+```
+
+What it proves and what it does **not**: the harness runs an in-process replica
+on the host CPU, so a clean recovery confirms the gadget **class** is exploitable
+here and that the speculation window reaches the reported distance. It does *not*
+execute the target binary's code at the reported address — confirming an in-binary
+gadget in situ (especially a kernel-mode ntoskrnl / driver gadget, which needs a
+privileged harness driving the real syscall/IOCTL inputs) is out of scope, as is
+**S2** indirect-branch (BTB) confirmation; S2 findings are listed for manual
+review rather than silently "confirmed".
 
 ## Limitations
 

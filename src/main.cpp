@@ -191,7 +191,8 @@ int main(int argc, char** argv) {
             std::fprintf(stderr, "error: could not write JSON to %s\n", json_out.c_str());
     }
     if (confirm)
-        std::printf("note: --confirm (dynamic Flush+Reload) is phase 2; see confirm/.\n");
+        std::printf("note: write a JSON report (--json) and pass it to specscout_confirm "
+                    "to dynamically confirm S1 findings via Flush+Reload.\n");
     return 0;
 #else
     std::printf("loaded %s: %zu functions, %zu imports. "
