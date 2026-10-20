@@ -1,4 +1,4 @@
-// harness.cpp — dynamic Flush+Reload confirmation for SpecScout findings.
+// harness.cpp - dynamic Flush+Reload confirmation for SpecScout findings.
 //
 // SpecScout's static pass reports candidate `a[b[i]]` (S1) and `b[i]()` (S2)
 // gadgets to a JSON report. This harness reads that report and, for each S1
@@ -10,8 +10,8 @@
 // speculation window reaches the reported distance.
 //
 // What it does NOT do: execute the target binary's code at the reported address.
-// Confirming an in-binary gadget in situ — especially a kernel-mode ntoskrnl /
-// driver gadget — requires a privileged, target-specific harness (mapping the
+// Confirming an in-binary gadget in situ - especially a kernel-mode ntoskrnl /
+// driver gadget - requires a privileged, target-specific harness (mapping the
 // image, driving the real syscall/IOCTL inputs, and sharing the reload buffer
 // with the victim). That is out of scope for this in-process confirmer; S2
 // (indirect-branch / BTB) confirmation is likewise out of scope here and such
@@ -23,15 +23,14 @@
 //   specscout_confirm <report.json> --limit N   leak-test at most N findings (0 = all)
 //
 // x86-64 only (clflush / rdtscp). Build: cl /O2 /std:c++17 harness.cpp
-#include <cctype>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <fstream>
-#include <sstream>
 #include <string>
 #include <vector>
+
+#include "report_json.h"
 
 #if defined(_MSC_VER)
 #include <intrin.h>
@@ -41,6 +40,9 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
+
+using ssconfirm::Finding;
+using ssconfirm::load_report;
 
 #define STRIDE 512
 // Non-static globals + a non-inlined victim so array1_size is genuinely
@@ -146,113 +148,6 @@ static int confirm_s1(int thr, int fill, int* len_out, bool verbose) {
     return ok;
 }
 
-// ----------------------------------------------------------------------------
-// Minimal JSON reader for SpecScout's own report format (flat finding objects
-// of string/number values). Not a general parser; dependency-free on purpose.
-// ----------------------------------------------------------------------------
-struct Finding {
-    std::string kind, guard_text, sink_text, source_api;
-    uint64_t    function = 0, guard = 0, sink = 0;
-    int         confidence = 0, spec_distance = 0;
-};
-
-// Pull the value for `key` out of one finding object's text. String values are
-// returned unescaped; numeric/other tokens are returned verbatim.
-static bool field(const std::string& obj, const char* key, std::string& out) {
-    std::string pat = std::string("\"") + key + "\"";
-    size_t p = 0;
-    while ((p = obj.find(pat, p)) != std::string::npos) {
-        size_t q = p + pat.size();
-        while (q < obj.size() && std::isspace((unsigned char)obj[q])) q++;
-        if (q >= obj.size() || obj[q] != ':') { p += pat.size(); continue; }  // key inside a value
-        q++;
-        while (q < obj.size() && std::isspace((unsigned char)obj[q])) q++;
-        if (q >= obj.size()) return false;
-        if (obj[q] == '"') {
-            std::string v;
-            for (++q; q < obj.size() && obj[q] != '"'; ++q) {
-                if (obj[q] == '\\' && q + 1 < obj.size()) {
-                    char c = obj[++q];
-                    v += (c == 'n') ? '\n' : c;
-                } else {
-                    v += obj[q];
-                }
-            }
-            out.swap(v);
-        } else {
-            size_t s = q;
-            while (q < obj.size() && obj[q] != ',' && obj[q] != '}' &&
-                   !std::isspace((unsigned char)obj[q])) q++;
-            out = obj.substr(s, q - s);
-        }
-        return true;
-    }
-    return false;
-}
-
-static uint64_t field_u64(const std::string& obj, const char* key) {
-    std::string v;  // VAs are stored as "0x..." strings; base 0 handles the prefix
-    return field(obj, key, v) ? std::strtoull(v.c_str(), nullptr, 0) : 0;
-}
-static int field_int(const std::string& obj, const char* key) {
-    std::string v;
-    return field(obj, key, v) ? std::atoi(v.c_str()) : 0;
-}
-
-// Split the "findings" array into its top-level object substrings.
-static std::vector<std::string> split_findings(const std::string& text) {
-    std::vector<std::string> objs;
-    size_t fp = text.find("\"findings\"");
-    size_t lb = text.find('[', fp == std::string::npos ? 0 : fp);
-    if (lb == std::string::npos) return objs;
-    int depth = 0; bool instr = false; size_t start = 0;
-    for (size_t i = lb; i < text.size(); ++i) {
-        char c = text[i];
-        if (instr) {
-            if (c == '\\') { ++i; continue; }
-            if (c == '"') instr = false;
-            continue;
-        }
-        if (c == '"') { instr = true; continue; }
-        if (c == '{') { if (depth++ == 0) start = i; }
-        else if (c == '}') { if (--depth == 0) objs.push_back(text.substr(start, i - start + 1)); }
-        else if (c == ']' && depth == 0) break;
-    }
-    return objs;
-}
-
-static bool load_report(const std::string& path, std::string& target,
-                        std::vector<Finding>& out) {
-    std::ifstream in(path, std::ios::binary);
-    if (!in) return false;
-    std::stringstream ss; ss << in.rdbuf();
-    std::string text = ss.str();
-
-    std::string tgt;
-    { size_t tp = text.find("\"target\""); if (tp != std::string::npos) {
-          // reuse field() on a slice starting at the target key
-          field(text.substr(tp, text.find('\n', tp) == std::string::npos
-                                    ? text.size() - tp
-                                    : text.find('\n', tp) - tp + 1),
-                "target", tgt); } }
-    target = tgt;
-
-    for (const std::string& o : split_findings(text)) {
-        Finding f;
-        field(o, "kind", f.kind);
-        field(o, "guard_text", f.guard_text);
-        field(o, "sink_text", f.sink_text);
-        field(o, "source_api", f.source_api);
-        f.function      = field_u64(o, "function");
-        f.guard         = field_u64(o, "guard");
-        f.sink          = field_u64(o, "sink");
-        f.confidence    = field_int(o, "confidence");
-        f.spec_distance = field_int(o, "spec_distance");
-        out.push_back(std::move(f));
-    }
-    return true;
-}
-
 static void pin_cpu() {
 #if defined(_WIN32)
     SetThreadAffinityMask(GetCurrentThread(), 1ull << 2);
@@ -340,6 +235,6 @@ int main(int argc, char** argv) {
            confirmed, tested, s2_skipped);
     if (tested == 0)
         printf("(no S1 findings leak-tested%s)\n",
-               n_s1 > 0 ? " — raise --limit or pass --all" : "");
+               n_s1 > 0 ? " - raise --limit or pass --all" : "");
     return (tested > 0 && confirmed < tested) ? 1 : 0;
 }

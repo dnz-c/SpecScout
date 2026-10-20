@@ -1,19 +1,19 @@
 # SpecScout
 
 A static **Spectre-v1 gadget scanner** for x86-64 PE binaries. It finds the
-bounds-check-bypass gadgets that MSVC's `/Qspectre` mitigation leaves behind —
+bounds-check-bypass gadgets that MSVC's `/Qspectre` mitigation leaves behind -
 the two shapes that actually transmit secrets:
 
-- **S1 `a[b[i]]`** — an attacker-controlled index drives a load whose result
+- **S1 `a[b[i]]`** - an attacker-controlled index drives a load whose result
   addresses a second (dependent) load: the classic Flush+Reload transmitter.
-- **S2 `b[i]()`** — an attacker-controlled index selects an indirect call/jump
+- **S2 `b[i]()`** - an attacker-controlled index selects an indirect call/jump
   target.
 
 `/Qspectre` only fences one narrow pattern and Microsoft states plainly that
 "there is no guarantee that all possible instances of variant 1 will be
 instrumented." SpecScout scans the **already-`/Qspectre`-compiled** binary and
 reports any attacker-tainted speculative sink with **no serializing barrier**
-(`lfence`/`mfence`/`cpuid`) between the guarding branch and the sink — i.e.
+(`lfence`/`mfence`/`cpuid`) between the guarding branch and the sink - i.e.
 exactly the gadgets the compiler missed.
 
 It is modelled on academic work (teapot/Kasper, oo7, Spectector) but is static,
@@ -23,24 +23,24 @@ DBA engine for precise taint + symbolic reasoning.
 ## How it works
 
 ```
-PE ─▶ Loader (LIEF)          sections, IAT imports, .pdata function ranges
-   ─▶ CFG (Capstone)         per-function basic blocks, tagged terminators
-   ─▶ TaintSources           call sites to known input APIs (recv/read/ReadFile/fread/…)
-   ─▶ SpecEngine (Triton)    per source: taint the API buffer, walk the concrete
+PE -> Loader (LIEF)          sections, IAT imports, .pdata function ranges
+   -> CFG (Capstone)         per-function basic blocks, tagged terminators
+   -> TaintSources           call sites to known input APIs (recv/read/ReadFile/fread/...)
+   -> SpecEngine (Triton)    per source: taint the API buffer, walk the concrete
                              path to attacker-tainted conditional branches, then
                              execute the MISPREDICTED path for a bounded window
-   ─▶ Sinks                  S1 dependent load (load var) / S2 tainted indirect target
-   ─▶ QspectreClassifier     residual iff no lfence/mfence/cpuid on the spec path
-   ─▶ Report                 ranked text + JSON
+   -> Sinks                  S1 dependent load (load var) / S2 tainted indirect target
+   -> QspectreClassifier     residual iff no lfence/mfence/cpuid on the spec path
+   -> Report                 ranked text + JSON
 ```
 
 Key ideas:
 
 - **Taint source = known input APIs.** The attacker-controlled buffer is the
-  output of `recv`/`read`/`ReadFile`/`fread`/… resolved via the import table.
+  output of `recv`/`read`/`ReadFile`/`fread`/... resolved via the import table.
 - **Bounds-check-bypass modelling.** The tainted buffer is seeded with an
   out-of-bounds concrete value so the *concrete* branch fails; the engine then
-  speculates the *mispredicted* (in-bounds) body — the dangerous direction.
+  speculates the *mispredicted* (in-bounds) body - the dangerous direction.
 - **Dependent-load detection survives constant folding.** Each attacker-addressed
   load's result is minted as a fresh symbolic "load variable"; a later load whose
   effective address references a load variable is the dependent outer load.
@@ -85,16 +85,16 @@ tracing.
 
 The attacker-input source is pluggable; the speculative walk and sinks are shared.
 
-- **`--api`** (user-mode) — taint the buffer written by an imported input API
-  (`recv`/`read`/`ReadFile`/`fread`/…). Precise, but needs the API to be an
+- **`--api`** (user-mode) - taint the buffer written by an imported input API
+  (`recv`/`read`/`ReadFile`/`fread`/...). Precise, but needs the API to be an
   import (dynamic CRT, `/MD`).
-- **`--driver`** (kernel `.sys`) — treat a routine as an IOCTL dispatcher
+- **`--driver`** (kernel `.sys`) - treat a routine as an IOCTL dispatcher
   (`DRIVER_DISPATCH(PDEVICE_OBJECT, PIRP)`), build a sandbox `_IRP` with the real
   x64 offsets, and taint `Irp->AssociatedIrp.SystemBuffer`, `Irp->UserBuffer` /
   `Type3InputBuffer`, and the IOCTL `InputBufferLength`. Dispatch routines are
   auto-discovered from `DriverEntry`'s stores into `DriverObject->MajorFunction[]`
   (best-effort), or named with `--function`.
-- **`--params`** (syscall / export surface) — treat the integer parameter
+- **`--params`** (syscall / export surface) - treat the integer parameter
   registers (`rcx`/`rdx`/`r8`/`r9`) at a function entry as attacker-controlled.
 
 ### Scanning drivers and ntoskrnl
@@ -106,10 +106,10 @@ specscout ntoskrnl.exe --params --function NtFoo     # target one syscall handle
 specscout ntoskrnl.exe --params --exports --max-funcs 300   # bounded sweep
 ```
 
-`ntoskrnl.exe` (≈13 MB, ~38 k functions) loads in a couple of seconds thanks to
+`ntoskrnl.exe` (~13 MB, ~38 k functions) loads in a couple of seconds thanks to
 **lazy, map-on-read memory** (image bytes are served to Triton on demand instead
 of mapped up front). The broad `--params` / `--driver` models **over-approximate**
-— they assume parameters/IRP buffers are attacker-controlled — so treat their
+- they assume parameters/IRP buffers are attacker-controlled - so treat their
 output as a **candidate set to triage**, not confirmed bugs. A scaling filter
 keeps only loads where a prior load's result is used as a *scaled* index (the
 cache-transmitter shape `array2[v*stride]`), which discards ordinary pointer
@@ -125,9 +125,9 @@ from `fread`. `build.bat` compiles each `/O2` with and without `/Qspectre`:
 | Binary     | Built with      | Model      | Result                                         |
 |------------|-----------------|------------|------------------------------------------------|
 | `s1.exe`   | `/O2`           | `--api`    | **S1 `a[b[i]]`** (true positive)               |
-| `s1_q.exe` | `/O2 /Qspectre` | `--api`    | **clean** — MSVC `lfence` (true negative)      |
+| `s1_q.exe` | `/O2 /Qspectre` | `--api`    | **clean** - MSVC `lfence` (true negative)      |
 | `s2.exe`   | `/O2`           | `--api`    | **S2 `b[i]()`** (true positive)                |
-| `s2_q.exe` | `/O2 /Qspectre` | `--api`    | **S2 still reported** — `/Qspectre` misses it  |
+| `s2_q.exe` | `/O2 /Qspectre` | `--api`    | **S2 still reported** - `/Qspectre` misses it  |
 | `s3.exe`   | `/O2`           | `--params` | **S1** from a parameter index (true positive)  |
 | `s3_q.exe` | `/O2 /Qspectre` | `--params` | **clean** (true negative)                      |
 | `s4.exe`   | `/O2`           | `--driver` | **S1** via an IOCTL `SystemBuffer` (true pos.) |
@@ -140,7 +140,7 @@ does **not** fence the indirect-call gadget, so SpecScout flags a real residual.
 ## Dynamic confirmation (`specscout_confirm`)
 
 `confirm/harness.cpp` builds the flagged S1 gadget, mistrains the guard, and
-recovers a secret through the `array2[]` cache side channel — confirming the
+recovers a secret through the `array2[]` cache side channel - confirming the
 gadget class is live on the host CPU. With no argument it runs the built-in
 self-test:
 
@@ -151,7 +151,7 @@ specscout_confirm
 ```
 
 Given a finder JSON report it walks every finding and, for each **S1**, runs an
-in-process replica keyed to that finding — mistraining the guard and delaying
+in-process replica keyed to that finding - mistraining the guard and delaying
 the transmit load by the reported `spec_distance` to also probe whether the
 speculation window reaches that far on your CPU:
 
@@ -169,11 +169,43 @@ specscout_confirm gadgets.json --all      # test every finding (slower)
 What it proves and what it does **not**: the harness runs an in-process replica
 on the host CPU, so a clean recovery confirms the gadget **class** is exploitable
 here and that the speculation window reaches the reported distance. It does *not*
-execute the target binary's code at the reported address — confirming an in-binary
-gadget in situ (especially a kernel-mode ntoskrnl / driver gadget, which needs a
-privileged harness driving the real syscall/IOCTL inputs) is out of scope, as is
-**S2** indirect-branch (BTB) confirmation; S2 findings are listed for manual
-review rather than silently "confirmed".
+execute the target binary's code at the reported address. **S2** indirect-branch
+(BTB) confirmation is out of scope; S2 findings are listed for manual review
+rather than silently "confirmed".
+
+## Kernel-mode confirmation (`confirm/kernel/`)
+
+For ntoskrnl / driver findings, `confirm/kernel/` confirms the S1 class at
+**kernel privilege**. A small WDM driver (`driver.c`) hosts the `a[b[i]]` gadget
+in kernel context over kernel-resident data and shares its `array2[]` reload
+buffer with user mode through an MDL; the client (`client.cpp`) reads the same
+JSON report, mistrains the kernel guard per finding, and recovers the driver's
+**kernel secret** through Flush+Reload across the user/kernel boundary:
+
+```
+confirm\kernel\build.bat                         REM builds specscout_kc.sys + kc_client.exe
+REM load the driver (admin, test-signing on, after a REBOOT) -- see WARNING below
+sc create SpecScoutKC type= kernel binPath= %CD%\specscout_kc.sys
+sc start  SpecScoutKC
+kc_client gadgets.json                            REM recover the kernel secret per S1 finding
+sc stop SpecScoutKC && sc delete SpecScoutKC
+
+[#0] S1:a[b[i]] fn=0x1403a08e0 guard=0x1403a0e5d -> sink=0x1403a0b86  dist=+24
+      recovered 10/10 bytes "KERNELpwn!" -> S1 class EXPLOITABLE in kernel on this CPU
+```
+
+This confirms a kernel-resident S1 gadget leaking kernel memory to a user-mode
+attacker is live on your CPU. It still does **not** jump to an arbitrary internal
+ntoskrnl address: driving a specific in-binary gadget in situ needs its exact call
+context (the real syscall/IOCTL path), which is out of scope; the driver hosts the
+flagged shape, keyed to each finding's `spec_distance`.
+
+> **WARNING.** `build.bat` only builds. Loading the driver needs Administrator, an
+> enabled test-signing boot mode (`bcdedit /set testsigning on`, then **reboot**),
+> and runs unsigned kernel code that performs speculative accesses. A bug here
+> bugchecks (BSODs) the machine. Use a dedicated test box or VM. Requires Visual
+> Studio 2022 (x64) + the WDK (headers/libs; the bare-`cl` `build.bat` does not
+> need the WDK Visual Studio extension).
 
 ## Limitations
 
