@@ -23,6 +23,9 @@ namespace specscout {
 struct EngineConfig {
     int      spec_window = 250;       // max instructions explored per misprediction
     int      max_normal_steps = 20000;// cap on the concrete discovery/replay walk
+    int      max_visits_per_pc = 64;  // cap re-executions of one address (loops):
+                                      // bounds symbolic-AST depth so its recursive
+                                      // teardown cannot overflow the stack
     int      source_taint_bytes = 64; // buffer bytes tainted at a source call
     uint64_t stack_top = 0x00007fffffff0000ULL;
     size_t   max_map_per_section = 16u * 1024 * 1024;  // cap bytes mapped per section

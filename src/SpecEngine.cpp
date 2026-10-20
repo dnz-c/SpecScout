@@ -19,6 +19,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include <unordered_map>
 #include <unordered_set>
 
 namespace specscout {
@@ -206,8 +207,15 @@ struct Session {
         if (site.model == SourceModel::Params) seed_params();
         else if (site.model == SourceModel::DriverIrp) seed_driver_irp();
         va_t pc = start_pc;
+        std::unordered_map<va_t, int> visits;
         for (int steps = 0; steps < cfg.max_normal_steps; ++steps) {
             if (!img.is_executable(pc)) break;
+            // Cap re-executions of one address. A tight loop (or a faulting /
+            // self-parking instruction) otherwise re-symbolizes the same
+            // registers every step, nesting one AST node per iteration until the
+            // recursive node destructor overflows the stack. Guards are deduped
+            // by address, so a handful of visits loses no discovery coverage.
+            if (++visits[pc] > cfg.max_visits_per_pc) break;
             Insn insn;
             if (!dis.decode_at(img, pc, insn)) break;
             size_t avail = 0;
@@ -217,7 +225,7 @@ struct Session {
             uint64_t rsp0 = insn.is_call ? rd("rsp") : 0;
 
             triton::arch::Instruction tinst(pc, code, insn.size);
-            ctx.processing(tinst);
+            auto fault = ctx.processing(tinst);
 
             if (dbg() && collect && insn.is_cond_branch) {
                 std::fprintf(stderr, "    [cond] 0x%llx tainted=%d  %s\n",
@@ -250,6 +258,17 @@ struct Session {
                 next = insn.fallthrough;         // model: callee returns immediately
             } else {
                 next = static_cast<va_t>(rd("rip"));
+                // A faulting instruction does not advance rip in Triton's
+                // semantics (e.g. `div` by an unmapped/zero divisor under our
+                // synthetic seeds sets FAULT_DE and returns before controlFlow).
+                // A rep-prefixed string op likewise parks rip until its (here
+                // attacker-garbage) counter drains. Either way, trusting rip
+                // reprocesses the same instruction up to max_normal_steps times,
+                // nesting one AST node per step until the recursive teardown
+                // overflows the stack. Step over any instruction that made no
+                // forward progress.
+                if (fault != triton::arch::NO_FAULT || next == pc)
+                    next = insn.fallthrough;
             }
             pc = next;
         }
