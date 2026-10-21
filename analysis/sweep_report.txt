@@ -1,0 +1,90 @@
+﻿=== amdfendr.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== amdfendrmgr.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== amdsafd.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== amdxe.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== AtihdWT6.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== CH341S64.SYS ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== cpuz155_x64.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== CtiIo64.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== globmerger.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== GPUZ-v2.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== hcmon.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== HidEventFilter.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== iaLPSS2_GPIO2_ADL.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== iaLPSS2_I2C_ADL.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== mullvad-split-tunnel.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== osfdisk.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== rt25cx21x64.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== RTKVHD64.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== semav6msr64.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== SteamStreamingMicrophone.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== SteamStreamingSpeakers.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== TeeDriverW10x64.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== veracrypt.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== vmci.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== VMNET.SYS ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== vmnetadapter.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== vmnetbridge.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== vmnetuserif.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== vmx86.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean
+=== vsock.sys ===
+  note          : no DriverEntry MajorFunction stores found
+  specscout: clean

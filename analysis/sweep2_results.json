@@ -1,0 +1,164 @@
+[
+ {
+  "driver": "amdfendr.sys",
+  "handler": "0x710c0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\amdfendr.inf_amd64_cacb8b05586ce9f7\\amdfendr.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\amdfendr.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "amdsafd.sys",
+  "handler": "0x140010744",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\amdsafd.inf_amd64_d4de13a10f2586d0\\amdsafd.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\amdsafd.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "AtihdWT6.sys",
+  "handler": "0x1400313d0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\atihdwt6.inf_amd64_7a7031d15c801b8c\\AtihdWT6.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\AtihdWT6.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "CH341S64.SYS",
+  "handler": "0x186d0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\Drivers\\CH341S64.SYS ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\CH341S64.SYS.json\n",
+  "findings": []
+ },
+ {
+  "driver": "cpuz155_x64.sys",
+  "handler": "0x11900",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\temp\\cpuz155\\cpuz155_x64.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\cpuz155_x64.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "CtiIo64.sys",
+  "handler": "0x13800",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 2 residual Spectre-v1 gadget(s) in C:\\Windows\\system32\\drivers\\CtiIo64.sys ===\n\n[#0] S1:a[b[i]]    confidence 100%\n     function   : 0x13800\n     taint src  : IRP @ call 0x13800\n     guard (br) : 0x13833  je 0x13bb6\n     sink       : 0x1386a  mov ecx, dword ptr [r8 + rax*4 + 0x3bfc]   (+10 insn speculative)\n     why        : reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> load -> dependent load (a[b[i]]); taint originates at IRP.\n\n[#1] S2:b[i]()     confidence 100%\n     function   : 0x13800\n     taint src  : IRP @ call 0x13800\n     guard (br) : 0x13833  je 0x13bb6\n     sink       : 0x13875  jmp rcx   (+12 insn speculative)\n     why        : reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> indirect branch target (b[i]()); taint originates at IRP.\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\CtiIo64.sys.json\n",
+  "findings": [
+   {
+    "kind": "S1:a[b[i]]",
+    "confidence": 100,
+    "function": "0x13800",
+    "source_api": "IRP",
+    "source_call": "0x13800",
+    "guard": "0x13833",
+    "guard_text": "je 0x13bb6",
+    "sink": "0x1386a",
+    "sink_text": "mov ecx, dword ptr [r8 + rax*4 + 0x3bfc]",
+    "spec_distance": 10,
+    "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> load -> dependent load (a[b[i]]); taint originates at IRP."
+   },
+   {
+    "kind": "S2:b[i]()",
+    "confidence": 100,
+    "function": "0x13800",
+    "source_api": "IRP",
+    "source_call": "0x13800",
+    "guard": "0x13833",
+    "guard_text": "je 0x13bb6",
+    "sink": "0x13875",
+    "sink_text": "jmp rcx",
+    "spec_distance": 12,
+    "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> indirect branch target (b[i]()); taint originates at IRP."
+   }
+  ]
+ },
+ {
+  "driver": "GPUZ-v2.sys",
+  "handler": "0x140001ef0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 2 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\TEMP\\GPUZ-v2.sys ===\n\n[#0] S1:a[b[i]]    confidence 100%\n     function   : 0x140001ef0\n     taint src  : IRP @ call 0x140001ef0\n     guard (br) : 0x140001f21  ja 0x1400024d0\n     sink       : 0x140001f42  mov ecx, dword ptr [rdx + rax*4 + 0x2500]   (+5 insn speculative)\n     why        : reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> load -> dependent load (a[b[i]]); taint originates at IRP.\n\n[#1] S2:b[i]()     confidence 100%\n     function   : 0x140001ef0\n     taint src  : IRP @ call 0x140001ef0\n     guard (br) : 0x140001f21  ja 0x1400024d0\n     sink       : 0x140001f4c  jmp rcx   (+7 insn speculative)\n     why        : reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> indirect branch target (b[i]()); taint originates at IRP.\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\GPUZ-v2.sys.json\n",
+  "findings": [
+   {
+    "kind": "S1:a[b[i]]",
+    "confidence": 100,
+    "function": "0x140001ef0",
+    "source_api": "IRP",
+    "source_call": "0x140001ef0",
+    "guard": "0x140001f21",
+    "guard_text": "ja 0x1400024d0",
+    "sink": "0x140001f42",
+    "sink_text": "mov ecx, dword ptr [rdx + rax*4 + 0x2500]",
+    "spec_distance": 5,
+    "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> load -> dependent load (a[b[i]]); taint originates at IRP."
+   },
+   {
+    "kind": "S2:b[i]()",
+    "confidence": 100,
+    "function": "0x140001ef0",
+    "source_api": "IRP",
+    "source_call": "0x140001ef0",
+    "guard": "0x140001f21",
+    "guard_text": "ja 0x1400024d0",
+    "sink": "0x140001f4c",
+    "sink_text": "jmp rcx",
+    "spec_distance": 7,
+    "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> indirect branch target (b[i]()); taint originates at IRP."
+   }
+  ]
+ },
+ {
+  "driver": "hcmon.sys",
+  "handler": "0x1400021e0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\system32\\DRIVERS\\hcmon.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\hcmon.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "HidEventFilter.sys",
+  "handler": "0x140006d20",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\hideventfilter.inf_amd64_550b85a074d33f99\\HidEventFilter.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\HidEventFilter.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "RTKVHD64.sys",
+  "handler": "0x14054d1a0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\system32\\drivers\\RTKVHD64.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\RTKVHD64.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "semav6msr64.sys",
+  "handler": "0x140007700",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\Windows\\system32\\drivers\\semav6msr64.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\semav6msr64.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "veracrypt.sys",
+  "handler": "0x1400534e0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\drivers\\veracrypt.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\veracrypt.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "vmci.sys",
+  "handler": "0x140002060",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\drivers\\vmci.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\vmci.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "vmnetuserif.sys",
+  "handler": "0x1400013a0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\system32\\DRIVERS\\vmnetuserif.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\vmnetuserif.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "vmx86.sys",
+  "handler": "0x1400047d0",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\system32\\DRIVERS\\vmx86.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\vmx86.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "vsock.sys",
+  "handler": "0x140002c40",
+  "stdout": "taint model: driver IRP - 1 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\system32\\DRIVERS\\vsock.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\vsock.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "amdkmdag.sys",
+  "handler": null,
+  "stdout": "discovered 33 IOCTL dispatch routine(s) from DriverEntry\ntaint model: driver IRP - 33 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\u0205306.inf_amd64_ed4bdb51fc506ec7\\B026676\\amdkmdag.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\amdkmdag.sys.json\n",
+  "findings": []
+ },
+ {
+  "driver": "igdkmdn64.sys",
+  "handler": null,
+  "stdout": "discovered 0 IOCTL dispatch routine(s) from DriverEntry\ntaint model: driver IRP - 0 entry function(s)\n\n=== SpecScout: 0 residual Spectre-v1 gadget(s) in C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b57fc4f35ff4051b\\igdkmdn64.sys ===\n\n  (no residual gadgets found)\n\nwrote JSON report -> A:\\MyProgramming\\C++\\SpecScout\\analysis\\specscout2\\igdkmdn64.sys.json\n",
+  "findings": []
+ }
+]

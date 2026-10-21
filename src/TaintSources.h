@@ -19,7 +19,8 @@ namespace specscout {
 enum class SourceModel {
     InputApi,    // user-mode: a buffer written by an imported input API
     DriverIrp,   // kernel: the IRP SystemBuffer/Type3InputBuffer of a dispatch routine
-    Params       // generic: the integer parameter registers at a function entry
+    Params,      // generic: the integer parameter registers at a function entry
+    CalleeEntry  // interproc: a callee entered from a call site carrying taint
 };
 
 struct SourceSpec {
@@ -34,6 +35,13 @@ struct TaintSourceSite {
     va_t        return_va = 0; // instruction after the call
     va_t        func_va = 0;   // function to start the walk at
     SourceSpec  spec;
+    SourceModel base = SourceModel::InputApi; // CalleeEntry: sandbox model inherited
+                                              // from the root site
+    uint64_t    ioctl_code = 0;      // DriverIrp: concrete IoControlCode for the walk
+    bool        ioctl_expanded = false; // DriverIrp: control-code probe already done
+    unsigned    arg_taint_mask = 0;  // CalleeEntry: bit i = arg reg i tainted
+    uint64_t    arg_vals[4] = {0, 0, 0, 0};  // CalleeEntry: concrete arg values
+    int         depth = 0;   // CalleeEntry: distance from the root site
 };
 
 class TaintSources {

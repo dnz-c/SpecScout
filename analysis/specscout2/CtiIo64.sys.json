@@ -1,0 +1,31 @@
+{
+  "target": "C:\\Windows\\system32\\drivers\\CtiIo64.sys",
+  "findings": [
+    {
+      "kind": "S1:a[b[i]]",
+      "confidence": 100,
+      "function": "0x13800",
+      "source_api": "IRP",
+      "source_call": "0x13800",
+      "guard": "0x13833",
+      "guard_text": "je 0x13bb6",
+      "sink": "0x1386a",
+      "sink_text": "mov ecx, dword ptr [r8 + rax*4 + 0x3bfc]",
+      "spec_distance": 10,
+      "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> load -> dependent load (a[b[i]]); taint originates at IRP."
+    },
+    {
+      "kind": "S2:b[i]()",
+      "confidence": 100,
+      "function": "0x13800",
+      "source_api": "IRP",
+      "source_call": "0x13800",
+      "guard": "0x13833",
+      "guard_text": "je 0x13bb6",
+      "sink": "0x13875",
+      "sink_text": "jmp rcx",
+      "spec_distance": 12,
+      "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> indirect branch target (b[i]()); taint originates at IRP."
+    }
+  ]
+}

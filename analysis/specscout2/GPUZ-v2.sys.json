@@ -1,0 +1,31 @@
+{
+  "target": "C:\\WINDOWS\\TEMP\\GPUZ-v2.sys",
+  "findings": [
+    {
+      "kind": "S1:a[b[i]]",
+      "confidence": 100,
+      "function": "0x140001ef0",
+      "source_api": "IRP",
+      "source_call": "0x140001ef0",
+      "guard": "0x140001f21",
+      "guard_text": "ja 0x1400024d0",
+      "sink": "0x140001f42",
+      "sink_text": "mov ecx, dword ptr [rdx + rax*4 + 0x2500]",
+      "spec_distance": 5,
+      "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> load -> dependent load (a[b[i]]); taint originates at IRP."
+    },
+    {
+      "kind": "S2:b[i]()",
+      "confidence": 100,
+      "function": "0x140001ef0",
+      "source_api": "IRP",
+      "source_call": "0x140001ef0",
+      "guard": "0x140001f21",
+      "guard_text": "ja 0x1400024d0",
+      "sink": "0x140001f4c",
+      "sink_text": "jmp rcx",
+      "spec_distance": 7,
+      "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> indirect branch target (b[i]()); taint originates at IRP."
+    }
+  ]
+}

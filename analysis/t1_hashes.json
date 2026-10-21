@@ -1,0 +1,326 @@
+﻿[
+    {
+        "Driver":  "amdfendr.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\amdfendr.inf_amd64_cacb8b05586ce9f7\\amdfendr.sys",
+        "Exists":  true,
+        "SHA256":  "33fc9a6d2982ce14e3d00449936da68be88e2002bbf14c78342d31614c819b30",
+        "InLOL":  false,
+        "Company":  "Advanced Micro Devices, Inc.",
+        "SizeMB":  0.4
+    },
+    {
+        "Driver":  "amdfendrmgr.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\amdfendr.inf_amd64_cacb8b05586ce9f7\\amdfendrmgr.sys",
+        "Exists":  true,
+        "SHA256":  "a62f63da1ffc4dd8cb69218339b3a5c23c30448350668e1512abed4f06ebc903",
+        "InLOL":  false,
+        "Company":  "Advanced Micro Devices, Inc.",
+        "SizeMB":  0.04
+    },
+    {
+        "Driver":  "amdkmdag.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\u0205306.inf_amd64_ed4bdb51fc506ec7\\B026676\\amdkmdag.sys",
+        "Exists":  true,
+        "SHA256":  "3948e7607c10ee23fab8a7370cc17af8288db4f6b5203154417f0d267cad67fb",
+        "InLOL":  false,
+        "Company":  "Advanced Micro Devices, Inc.",
+        "SizeMB":  85.91
+    },
+    {
+        "Driver":  "amdsafd.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\amdsafd.inf_amd64_d4de13a10f2586d0\\amdsafd.sys",
+        "Exists":  true,
+        "SHA256":  "0afddbfd7e82104e4629dd0ad6fde489cd72eded7140602cce288331de2599b5",
+        "InLOL":  false,
+        "Company":  "Advanced Micro Devices",
+        "SizeMB":  0.11
+    },
+    {
+        "Driver":  "amdxe.sys",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\amdxe.sys",
+        "Exists":  true,
+        "SHA256":  "f49f808ecf32ca8699e2fb6e2ee360c30251c1c3a1e9aee7801873be89cdc60e",
+        "InLOL":  false,
+        "Company":  "Advanced Micro Devices, Inc.",
+        "SizeMB":  0.06
+    },
+    {
+        "Driver":  "AtihdWT6.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\atihdwt6.inf_amd64_7a7031d15c801b8c\\AtihdWT6.sys",
+        "Exists":  true,
+        "SHA256":  "94439506c7460e97b7be9f651c7101db845ef962cfda424f1165714580beec2c",
+        "InLOL":  false,
+        "Company":  "Advanced Micro Devices",
+        "SizeMB":  0.25
+    },
+    {
+        "Driver":  "CH341S64.SYS",
+        "Path":  "C:\\WINDOWS\\System32\\Drivers\\CH341S64.SYS",
+        "Exists":  true,
+        "SHA256":  "a8cb7cf5050f9d14106b27d45d50dfb85f6cb119c0e871e673743ad62ecaeed0",
+        "InLOL":  false,
+        "Company":  "wch.cn",
+        "SizeMB":  0.08
+    },
+    {
+        "Driver":  "cpuz155_x64.sys",
+        "Path":  "C:\\WINDOWS\\temp\\cpuz155\\cpuz155_x64.sys",
+        "Exists":  true,
+        "SHA256":  "154ebfa287748caf5bf6fd5468cb10e9e82c8acfff17916e3d9bb9a23eb81b98",
+        "InLOL":  false,
+        "Company":  "CPUID",
+        "SizeMB":  0.04
+    },
+    {
+        "Driver":  "CtiIo64.sys",
+        "Path":  "C:\\Windows\\system32\\drivers\\CtiIo64.sys",
+        "Exists":  true,
+        "SHA256":  "b60b4828b3a575c51376ab3dba94e5ddc5e9aadf013c9e12bdfa775f3a1db050",
+        "InLOL":  false,
+        "Company":  "Creative Technology Innovation Co., LTd.",
+        "SizeMB":  0.03
+    },
+    {
+        "Driver":  "dump_dumpfve.sys",
+        "Path":  "C:\\WINDOWS\\System32\\Drivers\\dump_dumpfve.sys",
+        "Exists":  false,
+        "SHA256":  null,
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  null
+    },
+    {
+        "Driver":  "dump_dumpstorport.sys",
+        "Path":  "C:\\WINDOWS\\System32\\Drivers\\dump_dumpstorport.sys",
+        "Exists":  false,
+        "SHA256":  null,
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  null
+    },
+    {
+        "Driver":  "dump_stornvme.sys",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\dump_stornvme.sys",
+        "Exists":  false,
+        "SHA256":  null,
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  null
+    },
+    {
+        "Driver":  "globmerger.sys",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\globmerger.sys",
+        "Exists":  true,
+        "SHA256":  "b4e6a9a4ba595c13d13ff979d9986dce444ef266a6a758300b6e3a3aef7925eb",
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  0.14
+    },
+    {
+        "Driver":  "GPUZ-v2.sys",
+        "Path":  "C:\\WINDOWS\\TEMP\\GPUZ-v2.sys",
+        "Exists":  true,
+        "SHA256":  "beb24158f3c09443c70109380c4cffebfe446b9c462a0de949dc6f93345b0f63",
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  0.05
+    },
+    {
+        "Driver":  "hcmon.sys",
+        "Path":  "C:\\WINDOWS\\system32\\DRIVERS\\hcmon.sys",
+        "Exists":  true,
+        "SHA256":  "9dec53e8712a81eb8f40d8d21136ff4b2548e771455fdb04e1a489b9e125be4f",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.07
+    },
+    {
+        "Driver":  "HidEventFilter.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\hideventfilter.inf_amd64_550b85a074d33f99\\HidEventFilter.sys",
+        "Exists":  true,
+        "SHA256":  "458120ffabcda4105ab06ad4b2350bcfd0d7d4fd4fbeafbe794148c4b3d4b996",
+        "InLOL":  false,
+        "Company":  "Intel Corporation",
+        "SizeMB":  0.09
+    },
+    {
+        "Driver":  "iaLPSS2_GPIO2_ADL.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\ialpss2_gpio2_adl.inf_amd64_774a66f35d00ad3d\\iaLPSS2_GPIO2_ADL.sys",
+        "Exists":  true,
+        "SHA256":  "a2d2a3632f4e2350a1a1bd73a76b51acc0f326bc58ae0aab63be239db1321c67",
+        "InLOL":  false,
+        "Company":  "Intel Corporation",
+        "SizeMB":  0.13
+    },
+    {
+        "Driver":  "iaLPSS2_I2C_ADL.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\ialpss2_i2c_adl.inf_amd64_1ebed6f33a1c1014\\iaLPSS2_I2C_ADL.sys",
+        "Exists":  true,
+        "SHA256":  "81e44082c39b4556fb801a4226ee4b88041f85ef2dfb61e805c2a0776581610d",
+        "InLOL":  false,
+        "Company":  "Intel Corporation",
+        "SizeMB":  0.2
+    },
+    {
+        "Driver":  "igdkmdn64.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\iigd_dch.inf_amd64_b57fc4f35ff4051b\\igdkmdn64.sys",
+        "Exists":  true,
+        "SHA256":  "477e100c79a541915b607d8ef453514e2e460a0415f0bb7b78e8672f571f5f26",
+        "InLOL":  false,
+        "Company":  "Intel Corporation",
+        "SizeMB":  51.51
+    },
+    {
+        "Driver":  "mullvad-split-tunnel.sys",
+        "Path":  "C:\\Program Files\\Mullvad VPN\\resources\\mullvad-split-tunnel.sys",
+        "Exists":  true,
+        "SHA256":  "08d14a289eb9a071194e30a82aff5a936dca7ef8827fc6986075eddf1a6cb8fa",
+        "InLOL":  false,
+        "Company":  "Mullvad VPN AB",
+        "SizeMB":  0.09
+    },
+    {
+        "Driver":  "osfdisk.sys",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\osfdisk.sys",
+        "Exists":  true,
+        "SHA256":  "580da03a1a2973386f9c98ea471fe380fa0742df6769cdb68bd80a4be6353913",
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  1.45
+    },
+    {
+        "Driver":  "rt25cx21x64.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\rt25cx21x64.inf_amd64_5a99eeac5a197cd5\\rt25cx21x64.sys",
+        "Exists":  true,
+        "SHA256":  "dc194fedc680d5af4d7552b7815a13a15405bf7404ec7f6b016cfebc624f2ae1",
+        "InLOL":  false,
+        "Company":  "Realtek",
+        "SizeMB":  0.81
+    },
+    {
+        "Driver":  "RTCore64.sys",
+        "Path":  "C:\\Program Files (x86)\\MSI Afterburner\\RTCore64.sys",
+        "Exists":  true,
+        "SHA256":  "f1c8ca232789c2f11a511c8cd95a9f3830dd719cad5aa22cb7c3539ab8cb4dc3",
+        "InLOL":  true,
+        "Company":  "",
+        "SizeMB":  0.04
+    },
+    {
+        "Driver":  "RTKVHD64.sys",
+        "Path":  "C:\\WINDOWS\\system32\\drivers\\RTKVHD64.sys",
+        "Exists":  true,
+        "SHA256":  "90d7cbe2563acf899472b157a26d43e8422d4478bd2cab5a102d55011ac5338d",
+        "InLOL":  false,
+        "Company":  "Realtek Semiconductor Corp.",
+        "SizeMB":  5.89
+    },
+    {
+        "Driver":  "semav6msr64.sys",
+        "Path":  "C:\\Windows\\system32\\drivers\\semav6msr64.sys",
+        "Exists":  true,
+        "SHA256":  "01cbbf324e77ba9947fc28bd9e1a624be29cfeb1ace5fd03c605d609ba823641",
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  0.05
+    },
+    {
+        "Driver":  "SteamStreamingMicrophone.sys",
+        "Path":  "C:\\WINDOWS\\system32\\drivers\\SteamStreamingMicrophone.sys",
+        "Exists":  true,
+        "SHA256":  "0ec2de32da3afbc63ea84e76d1f0322382c273b3162885c7254f3960802b3b5e",
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  0.04
+    },
+    {
+        "Driver":  "SteamStreamingSpeakers.sys",
+        "Path":  "C:\\WINDOWS\\system32\\drivers\\SteamStreamingSpeakers.sys",
+        "Exists":  true,
+        "SHA256":  "ee1ee0d1346328da18d70988f01bd961437e95be5ab82059a28cbcc7d4b23239",
+        "InLOL":  false,
+        "Company":  "",
+        "SizeMB":  0.04
+    },
+    {
+        "Driver":  "TeeDriverW10x64.sys",
+        "Path":  "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\heci.inf_amd64_6b6e8cc42a3d1f09\\x64\\TeeDriverW10x64.sys",
+        "Exists":  true,
+        "SHA256":  "a2e0b9ea4973bc875baf685c684ed007407d05ab0bb053c3fb72d6357106a571",
+        "InLOL":  false,
+        "Company":  "Intel Corporation",
+        "SizeMB":  0.31
+    },
+    {
+        "Driver":  "veracrypt.sys",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\veracrypt.sys",
+        "Exists":  true,
+        "SHA256":  "1f0c6db3559d1356c38a1486a967cd90db5e6202e433fea1dfe510ddb884ffb6",
+        "InLOL":  false,
+        "Company":  "AM Crypto",
+        "SizeMB":  0.64
+    },
+    {
+        "Driver":  "vmci.sys",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\vmci.sys",
+        "Exists":  true,
+        "SHA256":  "e9a45bddb38925ded64b874644f58a6e8e87a10614ed7a34b9bdcce6bd3d46c6",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.1
+    },
+    {
+        "Driver":  "VMNET.SYS",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\VMNET.SYS",
+        "Exists":  true,
+        "SHA256":  "b68732206dd016988ff85244e2eb42d9c2142b0c7dae8f01dbdfd735c80d43dc",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.03
+    },
+    {
+        "Driver":  "vmnetadapter.sys",
+        "Path":  "C:\\WINDOWS\\System32\\drivers\\vmnetadapter.sys",
+        "Exists":  true,
+        "SHA256":  "252d88c5fa9697b1fa5ded4237d566b01fa7c2dc3ce81efe00ec81cf403f0790",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.03
+    },
+    {
+        "Driver":  "vmnetbridge.sys",
+        "Path":  "C:\\WINDOWS\\system32\\DRIVERS\\vmnetbridge.sys",
+        "Exists":  true,
+        "SHA256":  "21e7afcbe492dc89cec2afff2606246e2719d480dcccddcbfff5cbf9553b0028",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.05
+    },
+    {
+        "Driver":  "vmnetuserif.sys",
+        "Path":  "C:\\WINDOWS\\system32\\DRIVERS\\vmnetuserif.sys",
+        "Exists":  true,
+        "SHA256":  "1fbc9aa81e4ea57f5d559d99ced5ae814e4fc0ea0f22b6d32185af4f4c10ea0b",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.03
+    },
+    {
+        "Driver":  "vmx86.sys",
+        "Path":  "C:\\WINDOWS\\system32\\DRIVERS\\vmx86.sys",
+        "Exists":  true,
+        "SHA256":  "a5834d6075e9d93f3a3f58da9ca48d910100ebe7acdee6b23b0b8fed11cfebb8",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.1
+    },
+    {
+        "Driver":  "vsock.sys",
+        "Path":  "C:\\WINDOWS\\system32\\DRIVERS\\vsock.sys",
+        "Exists":  true,
+        "SHA256":  "372c11a3541fc543279faa0cb842b04b0c76545770531f7cc5ff2f051bae5c46",
+        "InLOL":  false,
+        "Company":  "Broadcom Inc.",
+        "SizeMB":  0.09
+    }
+]

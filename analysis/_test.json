@@ -1,0 +1,18 @@
+{
+  "target": "A:\\MyProgramming\\C++\\SpecScout\\tests\\corpus\\out\\s4.exe",
+  "findings": [
+    {
+      "kind": "S1:a[b[i]]",
+      "confidence": 100,
+      "function": "0x140001000",
+      "source_api": "IRP",
+      "source_call": "0x140001000",
+      "guard": "0x14000100e",
+      "guard_text": "jae 0x140001031",
+      "sink": "0x140001023",
+      "sink_text": "movzx eax, byte ptr [rax + rdx + 0x30a0]",
+      "spec_distance": 3,
+      "reason": "reachable speculatively past a tainted bounds check with no lfence/mfence/cpuid on the path; attacker index -> load -> dependent load (a[b[i]]); taint originates at IRP."
+    }
+  ]
+}

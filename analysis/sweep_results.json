@@ -1,0 +1,466 @@
+[
+ {
+  "driver": "amdfendr.sys",
+  "handler": "sub_710c0",
+  "devices": [
+   "\\Device\\AmdLog",
+   "\\DosDevices\\AmdLog"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_1a7a0, sub_1ac70, sub_1b0c0, sub_20c00, sub_22d70, sub_338d0, sub_41420, sub_41ff0, sub_47230, sub_72010",
+  "stores": "0x78=sub_11060, 0x88=sub_11060, 0x90=sub_11060, 0x98=sub_11060, 0xa0=sub_11060, 0xa8=sub_11060, 0xb0=sub_11060, 0xb8=sub_11060, 0xc0=sub_11060, 0xd0=sub_11060, 0xd8=sub_11060, 0xe8=sub_11060, 0xf8=sub_11060, 0x100=sub_11060, 0x108=sub_11060, 0x110=sub_11060, 0x118=sub_11060, 0x120=sub_11060, 0x128=sub_11060, 0x130=sub_11060, 0x138=sub_11060, 0x140=sub_11060, 0x148=sub_11060, 0x68=sub_712b0, 0xe0=sub_710c0, 0x70=sub_110a0, 0x80=sub_71010, 0xf0=sub_71270",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "amdfendrmgr.sys",
+  "handler": "",
+  "devices": [],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "amdsafd.sys",
+  "handler": "sub_140010744",
+  "devices": [
+   "\\DosDevices\\C:\\SAfdAudioData\\STREAM"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140004164, sub_140013894, sub_140018278",
+  "stores": "0x148=sub_14001039c, 0x70=sub_140010a98, 0x80=sub_140001e20, 0xe0=sub_140010744, 0x68=sub_140010c68",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "amdxe.sys",
+  "handler": "",
+  "devices": [],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "AtihdWT6.sys",
+  "handler": "0",
+  "devices": [],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140001470, sub_140002b2c, sub_14000329c, sub_140004634, sub_140005fb0, sub_1400078f8, sub_14000b174, sub_140010144, sub_14001bd90, sub_140021c20, sub_140022054, sub_14002274c, sub_140022fc0, sub_1400230d4, sub_140024708, sub_140029724, sub_14002a2a0, sub_14003a000",
+  "stores": "0x88=0, 0x88=0, 0xe0=0",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "CH341S64.SYS",
+  "handler": "sub_186d0",
+  "devices": [
+   "\\DosDevices\\",
+   "\\Device\\Serial"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_11710, sub_12310, sub_12a70, sub_12ae0, sub_12b50, sub_12c10, sub_12cc0, sub_12d90, sub_13d30, sub_13f60, sub_14740, sub_14ea0, sub_153a0, sub_15900, sub_16120, sub_163f0, sub_168d0, sub_16b00, sub_174d0, sub_17b00, sub_186d0, sub_19fb0, sub_1a8a0, sub_1ad40, sub_1b810, sub_1ba40, sub_1be60, sub_1c1d0, sub_1c9f0, WmiCompleteRequest, sub_22010",
+  "stores": "0x70=sub_1b810, 0x80=sub_1ba40, 0xe0=sub_186d0, 0x100=sub_13c80, 0x120=sub_1c9f0, 0x128=sub_11140, 0x148=sub_1c1d0, 0xb8=sub_15cb0, 0x90=sub_15cb0, 0x88=sub_15c00, 0xe8=sub_19d40, 0x98=sub_15f50, 0xa0=sub_16000, 0x68=sub_1abc0",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "cpuz155_x64.sys",
+  "handler": "sub_11900",
+  "devices": [
+   "\\Device\\cpuz155",
+   "\\DosDevices\\CPUZ155",
+   "\\DosDevices\\Global\\CPUZ155"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_116e0, sub_11900",
+  "stores": "0xe0=sub_11900, 0x80=sub_11900, 0x70=sub_11900, 0x68=sub_16620",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "CtiIo64.sys",
+  "handler": "sub_13800",
+  "devices": [
+   "\\DosDevices\\CtiIo",
+   "\\Device\\PhysicalMemory",
+   "\\Device\\CtiIo"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_13c50",
+  "stores": "0xe0=sub_13800, 0x80=sub_13800, 0x70=sub_13800, 0x68=sub_110f0",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "globmerger.sys",
+  "handler": "",
+  "devices": [
+   "\\Device\\cimfs\\control",
+   "\\Device\\cimfs\\",
+   "\\Device\\vmsmb\\VSMB-{dcc079ae-60ba-4d07-847c-3493609c0870}\\os",
+   "\\Device\\BootPartition\\",
+   "\\??\\Volume"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_14000ab80, sub_14000aec0, GlobMergeHive, sub_14000ddb8",
+  "stores": "0x118=1, 0x128=v7",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "GPUZ-v2.sys",
+  "handler": "sub_140001ef0",
+  "devices": [
+   "h\\Device\\%ls",
+   "\\??\\%ls"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140001730",
+  "stores": "0x70=sub_140001aa0, 0x80=sub_140001ad0, 0xe0=sub_140001ef0, 0x100=sub_140001b00, 0xf0=sub_140001be0, 0x68=sub_140001b30",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "hcmon.sys",
+  "handler": "sub_1400021e0",
+  "devices": [
+   "\\??\\HCD%d",
+   "\\DosDevices\\hcmon",
+   "\\Device\\hcmon",
+   "\\DosDevices\\hcmon"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_1400034b0, sub_140011000",
+  "stores": "0x68=sub_140007af0, 0xe0=sub_1400021e0, 0x70=sub_1400020a0, 0x80=sub_140001f10",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "HidEventFilter.sys",
+  "handler": "sub_140006d20",
+  "devices": [],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140008218",
+  "stores": "0x60=sub_140006f60, 0x68=sub_140006e40, 0x70=sub_140007290, 0x78=sub_140007200, 0x80=sub_1400081a0, 0x88=sub_1400078d0, 0x98=sub_140007950, 0xa0=sub_140007730, 0xa8=sub_1400077c0, 0xb0=sub_140007850, 0xb8=sub_140007320, 0xc0=sub_1400070f0, 0xd0=sub_140007c00, 0xd8=sub_140006db0, 0xe0=sub_140006d20, 0x100=sub_140007a50, 0x108=sub_140007ae0, 0x110=sub_140007b70, 0x118=sub_1400079d0, 0x120=sub_1400073a0, 0x128=sub_140007460, 0x130=sub_140008020, 0x138=sub_1400080e0, 0x140=sub_140007ea0, 0x148=sub_140007f60, 0x150=sub_140007c90, 0x158=sub_140007d50, 0x90=sub_140006ff0, 0xe8=sub_140006ff0, 0xf0=sub_140006ff0, 0xf8=sub_140006ff0",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "iaLPSS2_GPIO2_ADL.sys",
+  "handler": "",
+  "devices": [],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "iaLPSS2_I2C_ADL.sys",
+  "handler": "",
+  "devices": [],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140004b60, sub_140005d00",
+  "stores": "0x6c=0, 0x70=0, 0x68=v5",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "mullvad-split-tunnel.sys",
+  "handler": "",
+  "devices": [
+   "\\Device\\MULLVADSPLITTUNNEL"
+  ],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "osfdisk.sys",
+  "handler": "",
+  "devices": [
+   "\\Device\\AWEAlloc",
+   "\\Device\\NamedPipe\\ImDskSvc",
+   "\\DosDevices\\"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_1400057a4, sub_14000d0b0, sub_14001ba10, sub_140027e90, sub_140040650, sub_14005a6f0, sub_14005b470, sub_14005ce00, sub_14006a1f0, sub_140071710",
+  "stores": "0xf0=1, 0xf0=0",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "rt25cx21x64.sys",
+  "handler": "v10",
+  "devices": [
+   "\\DosDevices\\Global\\RealTekVirtualDevice",
+   "\\Device\\RealTekCard",
+   "\\DosDevices\\RealTekCard"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_1400040fc, sub_1400046dc, sub_1400118a0, sub_140012844, sub_140014540, sub_1400204c0, sub_140024ab0, sub_140024f7c, sub_14002c1f0, sub_14003cb80, sub_14003e078, sub_14003e230, sub_14003e3e8, sub_140045300, sub_140047e84, sub_1400799f4, sub_14007e0d0",
+  "stores": "0xe0=v10, 0xd0=v2, 0xd0=v5, 0xd0=v5, 0xd0=v5, 0xd0=v5",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "RTKVHD64.sys",
+  "handler": "1",
+  "devices": [
+   "\\Device\\NTPNP_PCI%04d",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   " \\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\SPBTESTTOOL",
+   "\\DosDevices\\C:\\RTKAMPI.dat",
+   "\\DosDevices\\%ws",
+   "\\DosDevices\\%ws\\%ws.dat"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140004a20, sub_140004d08, sub_140013e5c, sub_140015cd0, sub_140019490, sub_140019a10, sub_14001b180, sub_14001bbf0, sub_14001cae0, sub_14001fadc, sub_140041f08, sub_14004bcbc, sub_140050824, sub_1400635d8, sub_1400811e8, sub_1400af970, sub_1400be4a0, sub_1400c4cd8, sub_1400d7180, sub_1400de860, sub_1400e1938, sub_1400e8484, sub_1400ec290, sub_140116df0, sub_1401199f0, sub_14011db30, sub_1401bafb0, sub_1401ca590, sub_1401e868c, sub_1401fa848, sub_1401fbe70, sub_140203470, sub_140203b50, sub_140206e00, sub_140211c4c, sub_140242320, sub_14029ecf0, sub_1402d2030, sub_1402de250, sub_1402defa0, sub_1402ff180, sub_1402ffe50, sub_140308ac0, sub_140340c00, sub_140358560, sub_140358ff0, sub_14035e5c4, sub_14036da60, sub_140374440, sub_140378ac4, sub_140391a70, sub_1403be2b8, sub_1403c5fb0, sub_1403c6170, sub_140433e8c, sub_1404dd4b4, sub_1404e76f0, sub_14051ad24, sub_14051d4b8, sub_140547684, sub_14054b068, sub_14054cafc, sub_14054f110, sub_14055ade4, sub_14056d4e4, sub_140578960, sub_14057aca0, sub_14057d2bc, sub_140587838, sub_140587ce0, sub_14058b520, sub_14058cca0, sub_14058f2d0, sub_14058feb8, sub_140594a60, sub_140596680, sub_14059b214, sub_1405a14b0, sub_1405aab40, sub_1405abc90",
+  "stores": "0xe0=1, 0xe0=0",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "semav6msr64.sys",
+  "handler": "sub_140007700",
+  "devices": [
+   "\\Device\\IntelTelemetryDevice",
+   "\\DosDevices\\Global\\semav6msr64",
+   "\\Device\\semav6msr64",
+   "\\DosDevices\\Global\\semav6msr64"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_14000a000",
+  "stores": "0x70=sub_1400076e0, 0x80=sub_1400076e0, 0xf0=sub_140007a50, 0xe0=sub_140007700, 0x68=sub_140007a70",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "SteamStreamingMicrophone.sys",
+  "handler": "",
+  "devices": [],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "SteamStreamingSpeakers.sys",
+  "handler": "",
+  "devices": [],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "TeeDriverW10x64.sys",
+  "handler": "",
+  "devices": [],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "veracrypt.sys",
+  "handler": "0",
+  "devices": [
+   "\\Device\\VeraCrypt",
+   "e\\Device\\Harddisk",
+   "\\Device\\VeraCryptVolume",
+   "\\DosDevices\\",
+   "\\DosDevices\\VeraCrypt",
+   "\\Device\\MountPointManager",
+   "\\Device\\Harddisk%d\\Partition0",
+   "\\??\\\\%s",
+   "\\Device\\VeraCrypt",
+   "\\DosDevices\\VeraCrypt"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_14003becc, sub_14004962c, sub_14004b364, sub_14004b5e0, sub_1400549c0, sub_140054f9c",
+  "stores": "0xc0=1, 0xd0=0xffffffffffffffff, 0xd8=0xffffffffffffffff, 0xe0=0",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "vmci.sys",
+  "handler": "sub_140002060",
+  "devices": [
+   "\\Device\\VMCIHostDev",
+   "\\Device\\VMCIGuestDev",
+   "\\DosDevices\\VMCIDev"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_1400015b4, sub_140007670, sub_14000b7cc, sub_14000c96c",
+  "stores": "0x68=sub_140004850, 0x148=sub_140003560, 0x120=sub_140002e70, 0xe0=sub_140002060, 0x70=sub_140001ed0, 0x80=sub_140001d20, 0x128=sub_140004710",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "VMNET.SYS",
+  "handler": "",
+  "devices": [],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "vmnetadapter.sys",
+  "handler": "",
+  "devices": [
+   "\\DosDevices\\VMnet"
+  ],
+  "note": "no DriverEntry MajorFunction stores found",
+  "findings": [],
+  "specscout_rc": 0
+ },
+ {
+  "driver": "vmnetbridge.sys",
+  "handler": "",
+  "devices": [],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140001eec, sub_1400022f8",
+  "stores": "0x138=sub_140003020, 0x88=v22",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "vmnetuserif.sys",
+  "handler": "sub_1400013a0",
+  "devices": [
+   "\\Device\\VMnetUserif",
+   "\\DosDevices\\VMnetUserif"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140001000",
+  "stores": "0x70=sub_140001d80, 0x80=sub_140001280, 0x88=sub_140001e90, 0x90=sub_1400020d0, 0xe0=sub_1400013a0, 0x68=sub_140002040",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "vmx86.sys",
+  "handler": "sub_1400047d0",
+  "devices": [
+   "\\Device\\vmx86",
+   "\\DosDevices\\vmx86",
+   "\\Device\\PhysicalMemory"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140003464, sub_14000924c, sub_14000a154",
+  "stores": "0xe0=sub_1400047d0, 0x80=sub_1400047d0, 0x70=sub_1400047d0, 0x68=sub_140004910",
+  "specscout_rc": 0
+ },
+ {
+  "driver": "vsock.sys",
+  "handler": "sub_140002c40",
+  "devices": [
+   "\\DosDevices\\VMCIDev",
+   "\\Device\\vmci",
+   "\\DosDevices\\vmci"
+  ],
+  "note": "",
+  "findings": [],
+  "entry": "sub_140002544, sub_140004e98, sub_1400051d4, sub_1400076ec, sub_14000ae80",
+  "stores": "0x68=sub_1400032d0, 0xe0=sub_140002c40, 0x70=sub_140002840, 0x100=sub_140002770, 0x80=sub_1400027c0, 0x88=sub_140002f30, 0x90=sub_140002f30",
+  "specscout_rc": 0
+ }
+]

@@ -16,6 +16,7 @@
 #include "Report.h"
 #include "TaintSources.h"
 
+#include <set>
 #include <vector>
 
 namespace specscout {
@@ -27,6 +28,8 @@ struct EngineConfig {
                                       // bounds symbolic-AST depth so its recursive
                                       // teardown cannot overflow the stack
     int      source_taint_bytes = 64; // buffer bytes tainted at a source call
+    int      interproc_max_depth = 4;   // interproc: max callee nesting followed
+    int      interproc_max_sites = 256; // interproc: cap on discovered callee sites per root
     uint64_t stack_top = 0x00007fffffff0000ULL;
     size_t   max_map_per_section = 16u * 1024 * 1024;  // cap bytes mapped per section
 };
@@ -44,7 +47,14 @@ private:
 
     // Implementation detail lives in the .cpp (per-site Session over a Triton
     // Context); kept out of the header to avoid leaking Triton types.
-    void analyze_site(const TaintSourceSite& site, std::vector<Finding>& out);
+    // `discovered` receives callees entered with tainted argument registers.
+    void analyze_site(const TaintSourceSite& site, std::vector<Finding>& out,
+                      std::vector<TaintSourceSite>* discovered = nullptr);
+
+    // DriverIrp probe: disassemble the dispatch routine and collect plausible
+    // IoControlCode constants from `cmp reg, imm` sequences, so the walk can
+    // be seeded once per valid control code.
+    void collect_ioctl_codes(va_t func, std::set<uint64_t>& out);
 };
 
 } // namespace specscout
